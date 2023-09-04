@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { linkIcon } from "../assets"; // Import your other assets here
+import Loader from "./Loader";
 
 const Main = () => {
   const [Article, setArticle] = useState({
     url: "",
     content: "",
   });
-
+  const [showLoader, setShowLoader] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-
+    setShowLoader(true);
       const mainurl = `https://article-extractor-and-summarizer.p.rapidapi.com/summarize?url=${Article.url}&length=3`
     const options = {
       method: "GET",
@@ -22,7 +23,7 @@ const Main = () => {
     try {
       const response = await fetch(mainurl, options);
         const result = await response.text();
-        console.log(result);
+      setShowLoader(false);
       setArticle({
         ...Article,
         content: result,
@@ -33,7 +34,7 @@ const Main = () => {
   };
 
   return (
-    <section className="mt-16 w-full max-w-xl mx-auto">
+    <section className="mt-16 w-full max-w-4xl mx-auto">
       <div className="flex flex-col w-full gap-2">
         <form className="flex relative " onSubmit={(e) => handleSubmit(e)}>
           <img
@@ -63,8 +64,11 @@ const Main = () => {
         </form>
       </div>
 
-      <div className='my-10 max-w-full flex justify-center items-center'>
+      <div className='mt-10 w-full flex justify-center items-center'>
         {
+          showLoader ? (
+            <Loader/>
+          ):
           Article.content && (
             <div className='flex flex-col gap-3'>
               <h2 className='font-satoshi font-bold text-gray-600 text-xl'>
@@ -72,7 +76,7 @@ const Main = () => {
               </h2>
               <div className='summary_box'>
                 <p className='font-inter font-medium text-sm text-gray-700'>
-                                  {Article.content}
+                    {Article.content}
                 </p>
               </div>
             </div>
