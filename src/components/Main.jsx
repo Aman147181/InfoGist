@@ -75,7 +75,7 @@ const Main = () => {
                 Article <span className='blue_gradient'>Summary</span>
               </h2>
               <div className='summary_box'>
-                <p className='font-inter font-medium text-sm text-gray-700 dark:text-gray-900'>
+                <p className='font-inter font-medium text-sm text-gray-700 dark:text-gray-200'>
                     {Article.content}
                 </p>
               </div>
